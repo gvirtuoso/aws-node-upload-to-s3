@@ -1,0 +1,13 @@
+{
+  "name": "aws-node-upload-to-s3",
+  "version": "1.0.0",
+  "author": "Guilherme Virtuoso <guilhermevirtuoso83@gmail.com>",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "properties-reader": "0.0.15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/guivirtuoso/aws-node-upload-to-s3.git"
+  }
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>S3 Upload</title>
+
+  <script type="text/javascript">
+    var progressBar = document.getElementById('progress');
+    var loadBtn = document.getElementById('button');
+    var display = document.getElementById('display');
+
+    function upload(data) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '%BUCKET_URL%', true);
+
+      if (xhr.upload) {
+        xhr.upload.onprogress = function (e) {
+          if (e.lengthComputable) {
+            progressBar.max = e.total;
+            progressBar.value = e.loaded;
+            display.innerText = Math.floor((e.loaded / e.total) * 100) + '%';
+          }
+        };
+
+        xhr.upload.onloadstart = function (e) {
+          progressBar.value = 0;
+          display.innerText = '0%';
+        };
+
+        xhr.upload.onloadend = function (e) {
+          progressBar.value = e.loaded;
+          loadBtn.disabled = false;
+          loadBtn.innerHTML = 'Start uploading';
+        };
+      }
+
+      xhr.send(data);
+    }
+
+    loadBtn.addEventListener('click', function (e) {
+      this.disabled = true;
+      this.innerHTML = 'Uploading...';
+
+      var formUpload = document.getElementById('formUpload');
+      upload(new FormData(formUpload));
+
+    });
+
+  </script>
+</head>
+
+<body>
+  <H1>S3 Upload</H1>
+  <form id="formUpload" enctype="multipart/form-data">
+    <input type="hidden" name="key" value="%BUCKET_DESTINY_FOLDER%/${filename}">
+    <input type="hidden" name="AWSAccessKeyId" value="%AWS_ACCESS_KEY%">
+    <input type="hidden" name="acl" value="public-read">
+    <input type="hidden" name="success_action_redirect" value="%BUCKET_URL%/success.html">
+    <input type="hidden" name="policy" value="%POLICY_BASE64%">
+    <input type="hidden" name="signature" value="%SIGNATURE%">
+    <input type="hidden" name="Content-Type" value=""> Arquivo para upload: <input name="file" type="file"><br><br>
+    <button id="button">Start uploading</button>
+  </form>
+
+  <BR>
+  <progress id="progress" value="0"></progress>
+  <span id="display"></span>
+
+</body>
+
+</html>

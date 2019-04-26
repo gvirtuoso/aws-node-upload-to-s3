@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>S3 Upload</title>
+</head>
+
+<body>
+  <H1>S3 Upload</H1>
+  <form action="%BUCKET_URL%" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="key" value="%BUCKET_DESTINY_FOLDER%/${filename}">
+    <input type="hidden" name="AWSAccessKeyId" value="%AWS_ACCESS_KEY%">
+    <input type="hidden" name="acl" value="public-read">
+    <input type="hidden" name="success_action_redirect" value="%BUCKET_URL%/success.html">
+    <input type="hidden" name="policy" value="%POLICY_BASE64%">
+    <input type="hidden" name="signature" value="%SIGNATURE%">
+    <input type="hidden" name="Content-Type" value=""> Arquivo para upload: <input name="file" type="file"><br><br>
+    <input type="submit" value="Upload">
+  </form>
+</body>
+
+</html>
